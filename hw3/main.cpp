@@ -31,7 +31,7 @@ int test_func(const std::string& s, bool b) {
 
 template <class... Args>
 void f(Args... args) {
-    ArgumentsFormatter af;
+    ArgumentTypesFormatter af;
     af.FormatArgs(args...);
     std::cout << af.GetResult() << '\n';
 }
@@ -46,7 +46,7 @@ int main() {
     int res_false = fun1("test2", false);
     std::cout << res_true << ' ' <<  res_false << '\n';
 
-    std::cout << "ArgumentsFormatter test: \n";
+    std::cout << "ArgumentTypesFormatter test: \n";
     f(5, tf);
 
     std::cout << "Dispatcher test: \n";
@@ -94,6 +94,14 @@ int main() {
             > wrongStaticDispatcher;
     std::string result7 = wrongStaticDispatcher.Go(&necklacePrinter, &goldenChain, 0.5, "wrong param");
     std::cout << result7 << '\n';
+
+    StaticDispatcher<
+            Visitor, TypeList<PriceCalculator, NecklacePrinter>,
+            Acceptor, TypeList<GoldenChain, Rope>,
+            std::string
+            > wrongStaticDispatcher2;
+    std::string result8 = wrongStaticDispatcher2.Go(&necklacePrinter, &goldenChain);
+    std::cout << result8 << '\n';
 
     return 0;
 }
